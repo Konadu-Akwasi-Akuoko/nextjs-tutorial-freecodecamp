@@ -1,26 +1,32 @@
 import Link from "next/link";
 import Image from "next/image";
+import React from "react";
 
-function Index_Events() {
+type EventsPageProps = {
+  events: { id: string; title: string; description: string; image: string }[];
+};
+
+function EventsPage({ events }: EventsPageProps) {
+  const eventItems = events.map((event, index) => (
+    <Link href={`/events/${event.id}`} key={index}>
+      <Image src={event.image} alt="" width="250" height="250" />
+      <h2>{event.title}</h2>
+      {/* <p>{event.description}</p> */}
+    </Link>
+  ));
+
   return (
     <div>
       <h1>Events Page</h1>
-      <div>
-        <Link href="/events/london">
-          <Image src="" alt="" />
-          <h2>Events in London</h2>
-        </Link>
-        <Link href="/events/san-francisco">
-          <Image src="" alt="" />
-          <h2>Events in San Francisco</h2>
-        </Link>
-        <Link href="/events/san-barcelona">
-          <Image src="" alt="" />
-          <h2>Events in San Barcelona</h2>
-        </Link>
-      </div>
+      <div>{eventItems}</div>
     </div>
   );
 }
 
-export default Index_Events;
+export default EventsPage;
+
+export async function getStaticProps() {
+  const data = await import("../../data/data.json");
+
+  return { props: { events: data.events_categories } };
+}

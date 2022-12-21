@@ -1,12 +1,22 @@
 import Head from "next/head";
-import { Inter } from "@next/font/google";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
 import Image from "next/image";
+import React from "react";
 
-const inter = Inter({ subsets: ["latin"] });
+type HomePageProps = {
+  events: { id: string; title: string; description: string; image: string }[];
+};
 
-export default function Home() {
+export default function HomePage({ events }: HomePageProps) {
+  const eventItems = events.map((event, index) => (
+    <Link href={`/events/${event.id}`} key={index}>
+      <Image src={event.image} alt="" width="250" height="250" />
+      <h2>{event.title}</h2>
+      <p>{event.description}</p>
+    </Link>
+  ));
+
   return (
     <>
       <Head>
@@ -27,48 +37,16 @@ export default function Home() {
 
       <main className={styles.main}>
         <Image src="" alt="" />
-        <Link href="">
-          <Image src="" alt="" />
-          <h2>Events in London</h2>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
-          </p>
-        </Link>
-        <Link href="">
-          <Image src="" alt="" />
-          <h2>Events in San Francisco</h2>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
-          </p>
-        </Link>
-        <Link href="">
-          <Image src="" alt="" />
-          <h2>Events in San Barcelona</h2>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
-          </p>
-        </Link>
+        {eventItems}
       </main>
 
       <footer>Footer</footer>
     </>
   );
+}
+
+export async function getStaticProps() {
+  const data = await import("../data/data.json");
+
+  return { props: { events: data.events_categories } };
 }
