@@ -17,7 +17,7 @@ function EventCategoryPage({ allEvents }: EventCategoryPageProps) {
   const router = useRouter();
   const { cat } = router.query;
 
-  const allEventsList = allEvents.map((event, index) => (
+  const allEventsList = allEvents?.map((event, index) => (
     <Link href={`${router.asPath}/${event.id}`} key={index}>
       <h2>{event.title}</h2>
       <Image src={event.image} alt="" width="250" height="250" />

@@ -11,22 +11,29 @@ type DynamicEventType = {
     description: string;
     image: string;
     emails_registered?: string[];
-  };
+  }[];
   eventPath: string;
   catPath: string;
 };
 
 function DynamicEvent({ event, eventPath, catPath }: DynamicEventType) {
-  const router = useRouter();
-
   return (
     <>
       <h1>
         Events in {catPath}, and the event is {eventPath}
       </h1>
-      <Image src={event.image} alt="" width="500" height="500" />
-      <h2>{event.title}</h2>
-      <p>{event.description}</p>
+      <Image src={event[0].image} alt="" width="500" height="500" />
+      <h2>{event[0].title}</h2>
+      <p>{event[0].description}</p>
+      {event[0].emails_registered ? (
+        <ul>
+          {event[0].emails_registered.map((email, index) => (
+            <li key={index}>{email}</li>
+          ))}
+        </ul>
+      ) : (
+        <div></div>
+      )}event
     </>
   );
 }
