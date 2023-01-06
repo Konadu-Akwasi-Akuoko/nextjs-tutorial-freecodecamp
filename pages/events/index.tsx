@@ -8,7 +8,7 @@ type EventsPageProps = {
 
 function EventsPage({ events }: EventsPageProps) {
   const eventItems = events.map((event, index) => (
-    <Link href={`/events/${event.id}`} key={index}>
+    <Link href={`/events/${event.id}`} key={index} passHref>
       <Image src={event.image} alt="" width="250" height="250" />
       <h2>{event.title}</h2>
       {/* <p>{event.description}</p> */}

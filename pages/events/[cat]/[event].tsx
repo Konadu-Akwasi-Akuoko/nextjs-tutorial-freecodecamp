@@ -33,18 +33,33 @@ function DynamicEvent({ event, eventPath, catPath }: DynamicEventType) {
         </ul>
       ) : (
         <div></div>
-      )}event
+      )}
+      event
     </>
   );
 }
 
 export default DynamicEvent;
 
+export async function getStaticPaths() {
+  const { allEvents } = await import("../../../data/data.json");
+  const allPaths = allEvents.map((path) => {
+    return {
+      params: {
+        cat: path.city,
+        event: path.id,
+      },
+    };
+  });
+
+  return { paths: allPaths, fallback: true };
+}
+
 type getSeverSidePropsType = {
   params: { cat: string; event: string };
 };
 
-export async function getServerSideProps({ params }: getSeverSidePropsType) {
+export async function getStaticProps({ params }: getSeverSidePropsType) {
   const { allEvents } = await import("../../../data/data.json");
   return {
     props: {
