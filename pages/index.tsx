@@ -1,20 +1,10 @@
+import { fetcher } from "../utils/fetcher";
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
-import Link from "next/link";
-import Image from "next/image";
 import React from "react";
 import HomePage from "../src/components/home/home-page";
-import { Footer } from "../src/components/footer/Footer";
-import Header from "../src/components/header/Header";
-import useSWR from "swr";
 
 type HomePageProps = {
   events: { id: string; title: string; description: string; image: string }[];
-};
-
-const fetcher = async (url: string) => {
-  const data = await fetch(url);
-  return data.json();
 };
 
 export default function Home({ events }: HomePageProps) {
